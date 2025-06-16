@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Special Calculator</title>
+  <style>
+    body {
+      background: #2e2e2e;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    /* Calculator styles */
+    .calculator {
+      background: #444;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      width: 360px;
+    }
+    .display {
+      background: #222;
+      color: #0f0;
+      font-size: 1.8em;
+      text-align: right;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: inset 0 4px 8px rgba(0,0,0,0.3);
+      margin-bottom: 20px;
+    }
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .btn {
+      background: #ddd;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px #bbb;
+      padding: 20px;
+      font-size: 1.2em;
+      cursor: pointer;
+      transition: all 0.1s ease;
+    }
+    .btn:active {
+      box-shadow: 0 2px #888;
+      transform: translateY(2px);
+    }
+    .operator { background: #f9a825; box-shadow: 0 4px #b27f00; color: #fff; }
+    #equals { background: #039be5; box-shadow: 0 4px #0277bd; color: #fff; grid-column: span 2; }
+    #clear { background: #e53935; box-shadow: 0 4px #ab000d; color: #fff; }
+
+    /* Login page styles */
+    .login-page {
+      background: #2e2e2e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-form {
+      background: #444;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      width: 300px;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+    .login-form h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .login-form input {
+      margin-bottom: 15px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+    .login-form button {
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      background: #039be5;
+      color: #fff;
+      font-size: 1em;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator" id="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button class="btn" data-value="7">7</button>
+      <button class="btn" data-value="8">8</button>
+      <button class="btn" data-value="9">9</button>
+      <button class="btn operator" data-value="/">÷</button>
+      <button class="btn" data-value="4">4</button>
+      <button class="btn" data-value="5">5</button>
+      <button class="btn" data-value="6">6</button>
+      <button class="btn operator" data-value="*">×</button>
+      <button class="btn" data-value="1">1</button>
+      <button class="btn" data-value="2">2</button>
+      <button class="btn" data-value="3">3</button>
+      <button class="btn operator" data-value="-">−</button>
+      <button id="clear" class="btn">C</button>
+      <button class="btn" data-value="0">0</button>
+      <button id="equals">=</button>
+      <button class="btn operator" data-value="+">+</button>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const display = document.getElementById('display');
+      const calc = document.getElementById('calculator');
+      let expression = '';
+
+      document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const val = btn.getAttribute('data-value');
+          if (val) {
+            expression += val;
+            display.textContent = expression;
+          }
+        });
+      });
+
+      document.getElementById('clear').addEventListener('click', () => {
+        expression = '';
+        display.textContent = '0';
+      });
+
+      document.getElementById('equals').addEventListener('click', () => {
+        if (expression === '9*5') {
+          // Render login page
+          document.body.innerHTML = `
+            <div class="login-page">
+              <form class="login-form">
+                <h2>#Enter Your Details</h2>
+                <input type="text" placeholder="Username" required />
+                <input type="email" placeholder="Email" required />
+                <input type="password" placeholder="Password" required />
+                <button type="submit">Submit</button>
+              </form>
+            </div>
+          `;
+        } else {
+          try {
+            const result = eval(expression);
+            display.textContent = result;
+            expression = result.toString();
+          } catch (e) {
+            display.textContent = 'Error';
+            expression = '';
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
